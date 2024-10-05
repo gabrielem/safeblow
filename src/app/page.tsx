@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const [whistleType, setWhistleType] = useState<'anonymous' | 'not_anonymous'>('anonymous');
+  const [whistleType, setWhistleType] = useState<'anonymous' | 'not_anonymous'>('not_anonymous');
   const router = useRouter();
 
   const handleContinue = () => {

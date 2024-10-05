@@ -27,6 +27,18 @@ const requestTlsVerify = async (): Promise<requestTlsVerifyResult> => {
     }
   }
 
+  const validateIdentityFormCheck = (formData: any) => {
+    // const { organization, name, surname, email, tlsCertificate } = formData;
+    const { organization, name, surname, email} = formData;
+    if (!organization) throw 'Organization is required'
+    if (!name) throw 'Name is required'
+    if (!surname) throw 'Surname is required'
+    if (!email) throw 'Email is required'
+};
+
+
+
   export {
-    requestTlsVerify
+    requestTlsVerify,
+    validateIdentityFormCheck
   }
