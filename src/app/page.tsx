@@ -24,7 +24,7 @@ export default function Home() {
       </div>
       <div className="container mx-auto py-4 px-6 flex justify-center items-center">
         <button 
-          className="bg-[#0284c7] text-white px-6 py-2 rounded-lg ml-4"
+          className="bg-[#0284c7] text-white px-6 py-2 rounded-lg ml-4 text-"
           onClick={handleContinue}
         >
           Continue
