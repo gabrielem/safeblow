@@ -26,7 +26,6 @@ const WhistleForm: React.FC<WhistleFormProps> = ({ identityPayload }) => {
 
     return (
         <div>
-            <h1>WhistleForm</h1>
             <div>
                 <label htmlFor="whistleMessage" className="block text-sm font-medium text-gray-100">Whistle Message</label>
                 <textarea
