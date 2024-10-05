@@ -24,7 +24,8 @@
     ],
     "function-paren-newline": ["error", "multiline-arguments"],
     "function-call-argument-newline": ["error", "consistent"],
-    "linebreak-style": ["error", "unix"]
+    "linebreak-style": ["error", "unix"],
+    "@typescript-eslint/no-explicit-any": "off"
     // "linebreak-style": [
     //     "error",
     //     "unix"
