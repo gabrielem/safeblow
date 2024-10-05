@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Video Frame Builder</title>
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="videoFrameContainer"></div>
+
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script>
+    function fetchHTML(url) {
+      return fetch(url)
+        .then(response => response.text())
+        .then(html => new DOMParser().parseFromString(html, "text/html"));
+    }
+
+    function extractMetadata(dom) {
+      return {
+        videoUrl: dom.querySelector('meta[property="fc:frame:video"]').getAttribute('content'),
+        videoType: dom.querySelector('meta[property="fc:frame:video:type"]').getAttribute('content'),
+        imageUrl: dom.querySelector('meta[property="fc:frame:image"]').getAttribute('content'),
+      };
+    }
+
+    // This function creates and inserts either the video frame or an image into the page, depending on the available metadata
+    function createMediaElement(metadata) {
+      const container = document.getElementById('videoFrameContainer');
+      container.innerHTML = ''; // Clear existing content
+
+      // Dimensions to maintain an aspect ratio of 1.91:1
+      const width = 640;
+      const height = 335; // Rounded from the calculation
+
+      // Check if video metadata is available
+      if (metadata.videoUrl && metadata.videoType) {
+        const videoElement = document.createElement('video');
+        videoElement.classList.add('video-js');
+        videoElement.controls = true;
+        videoElement.preload = 'auto';
+        videoElement.style.width = `${width}px`;
+        videoElement.style.height = `${height}px`;
+        videoElement.poster = metadata.imageUrl;
+        videoElement.setAttribute('data-setup', '{}');
+        const sourceElement = document.createElement('source');
+        sourceElement.src = metadata.videoUrl;
+        sourceElement.type = metadata.videoType;
+
+        videoElement.appendChild(sourceElement);
+        container.appendChild(videoElement);
+
+        // Initialize the video player
+        videojs(videoElement);
+      } else if (metadata.imageUrl) {
+        // If video metadata isn't available but an image URL is, display the image as a fallback
+        const imageElement = document.createElement('img');
+        imageElement.src = metadata.imageUrl;
+        imageElement.style.width = `${width}px`;
+        imageElement.style.height = `${height}px`;
+        imageElement.alt = 'Fallback Image';
+
+        container.appendChild(imageElement);
+      } else {
+        container.innerText = 'Media content is not available.';
+      }
+    }
+
+    const url = 'https://streamethorg.github.io/video-frame';
+    fetchHTML(url)
+      .then(dom => extractMetadata(dom))
+      .then(metadata => createMediaElement(metadata))
+      .catch(error => console.error('Failed to fetch or parse HTML:', error));
+
+  </script>
+</body>
+</html>
