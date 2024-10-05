@@ -8,7 +8,8 @@ async function setWhistleHandler(req: NextApiRequest, res: NextApiResponse) {
         const { whistle } = req.body
         if (!whistle) throw 'Whistle data is required'
 
-        const whistleHash = hashSHA256(sortObject(whistle));
+        // const whistleHash = hashSHA256(sortObject(whistle));
+        const whistleHash = hashSHA256(whistle);
         await admin.database().ref(`whistle/${whistleHash}`).set(whistle);
         return res.send(whistleHash)
 

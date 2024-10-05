@@ -1,5 +1,4 @@
 // IdentityForm
-import CryptoJS from 'crypto-js'
 import { IdentityFormProps } from '@/types';
 import React, { ChangeEvent, useState } from 'react';
 import WhistleForm from './WhistleForm';
@@ -9,6 +8,7 @@ import { BsSend } from 'react-icons/bs';
 import VerifiedBadge from './VerifiedBadge';
 import api from '@/helpers/api';
 import WhistleResponse from './WhistleResponse';
+import { encryptData } from '@/encryptDecrypt';
 
 const IdentityForm: React.FC<IdentityFormProps> = ({whistleType}) => {
     const [loadingSubmit, setLoadingSubmit] = useState(false)
@@ -83,7 +83,11 @@ const IdentityForm: React.FC<IdentityFormProps> = ({whistleType}) => {
 
         setLoadingSubmit(true)
         try {
-            const wHash = hashSHA256(sortObject(formData))
+            console.log("🔑🔑🔑 ---> Public Key...", process.env.NEXT_PUBLIC_PUB_KEY);
+            const encryptedData = encryptData(process.env.NEXT_PUBLIC_PUB_KEY, formData)
+            console.log("🔑🔑🔑 ---> Encrypted Data...", encryptedData);
+            
+            const wHash = hashSHA256(encryptedData)
             setWhistleHash(wHash)
             const result = await api.setWhistle({whistle: formData}) 
             console.log("Submit Result...", result);
