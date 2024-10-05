@@ -34,6 +34,7 @@ const Form: React.FC<FormProps> = ({ params }) => {
             <IdentityForm whistleType={params?.whistleType} />
           </div>
           </>
+          
         ) : (
           <ItemNotFound />
         )}

@@ -3,6 +3,7 @@
 import BgContainer from '@/components/BgContainer'
 import Header from '@/components/Header'
 import TransgateConnect from '@zkpass/transgate-js-sdk'
+import Link from 'next/link'
 import { type ReactNode, useEffect, useState } from 'react'
 
 interface resultPropType {
@@ -28,10 +29,19 @@ export default function Home (): JSX.Element {
         setResult(res)
       } else {
         setError(
-          <pre style={{ textAlign: 'center', color: 'red' }}>
+          <div style={{ textAlign: 'center', color: 'red' }}>
             Please install zkPass Transgate from
-            <a href='https://chromewebstore.google.com/detail/zkpass-transgate/afkoofjocpbclhnldmmaphappihehpma'> here</a>
-          </pre>
+            <div>
+              <Link
+                className="inline-block bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                href='https://chromewebstore.google.com/detail/zkpass-transgate/afkoofjocpbclhnldmmaphappihehpma'
+                target='_blank'
+                >
+                  Here
+              </Link>
+            </div>
+
+          </div>
         )
       }
     } catch (error) {

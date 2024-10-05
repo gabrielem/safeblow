@@ -1,37 +1,6 @@
 {
-  "env": {
-        "browser": true,
-        "es2021": true,
-        "node": true,
-        "commonjs": true
-    },
-  "extends": [
-    "next/core-web-vitals", 
-    "next/typescript",
-    "standard",
-    "standard-with-typescript",
-    "standard-jsx",
-    "standard-react"
-  ],
-  "parserOptions": {
-        "project": "./tsconfig.json"
-    },
-  "rules": { 
-    "@typescript-eslint/strict-boolean-expressions": 0,
-    "indent": [
-        "error",
-        2
-    ],
-    "function-paren-newline": ["error", "multiline-arguments"],
-    "function-call-argument-newline": ["error", "consistent"],
-    "linebreak-style": ["error", "unix"],
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
     "@typescript-eslint/no-explicit-any": "off"
-    // "linebreak-style": [
-    //     "error",
-    //     "unix"
-    // ]
-  },
-  "globals": {
-    "React": true
   }
 }
