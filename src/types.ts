@@ -24,6 +24,12 @@ interface FormProps {
     whistleMessage: string;
     identity?: any;
   }
+
+  interface requestTlsVerifyResult {
+    schemaId: string
+    data: Record<string, string> | undefined
+  }
+  
   
   export type { 
     FormProps,
@@ -31,5 +37,6 @@ interface FormProps {
     IdentityFormProps,
     WhistleFormProps,
     IWhistleForm,
+    requestTlsVerifyResult,
     
 }
