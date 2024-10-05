@@ -12,21 +12,26 @@ interface resultPropType {
 }
 
 export default function Home (): JSX.Element {
-  const [result, setResult] = useState<resultPropType>()
+  const [liv1, setLiv1] = useState<resultPropType>()
+  const [liv2, setLiv2] = useState<resultPropType>()
   const [error, setError] = useState<ReactNode | undefined>()
 
   const requestVerifyMessage = async (): Promise<void> => {
     try {
-      const appid = '10ca5a7d-db96-40e6-9194-8f9cf1838558'
+      const appid = '0d2a8f10-cf31-4650-9d00-0e6fb328fd27'
 
       const connector = new TransgateConnect(appid)
       const isAvailable = await connector.isTransgateAvailable()
 
       if (isAvailable) {
-        const schemaId = '58754dde6b294f0292ade6d5ca5bc6ee'
+        const schemaIdLiv1 = '4b226bbae74349ed90a7a6d55c52f3ea'
+        const liv1 = await connector.launch(schemaIdLiv1) as resultPropType
+        setLiv1(liv1)
 
-        const res = await connector.launch(schemaId) as resultPropType
-        setResult(res)
+        const schemaIdLiv2 = '29ec995bc8834183b6c0d785784705a7'
+        const liv2 = await connector.launch(schemaIdLiv2) as resultPropType
+        setLiv1(liv2)
+
       } else {
         setError(
           <div style={{ textAlign: 'center', color: 'red' }}>
@@ -54,15 +59,19 @@ export default function Home (): JSX.Element {
     }
   }
 
-  useEffect(() => {
-    requestVerifyMessage().catch(console.error)
-  }, [])
-
   return (
     <BgContainer backgroundImage='/bg.jpg'>
       <Header />
       {error}
-      <pre>{JSON.stringify(result, null, 2)}</pre>
+      <button
+        style={{ margin: 'auto', display: 'block' }}
+        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+        onClick={requestVerifyMessage}
+      >
+        Verify KYC Level on ByBit
+      </button>
+      <pre>Liv1: {JSON.stringify(liv1, null, 2)}</pre>
+      <pre>Liv2: {JSON.stringify(liv2, null, 2)}</pre>
     </BgContainer>
   )
 }
