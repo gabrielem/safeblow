@@ -9,9 +9,27 @@ interface FormProps {
   interface IdentityFormProps {
     whistleType: IwhistleType;
   }
+
+  interface WhistleFormProps {
+    identityPayload?: {
+        organization: string;
+        name: string;
+        surname: string;
+        email: string;
+        tlsCertificate?: object;
+    };
+  }
+
+  interface IWhistleForm {
+    whistleMessage: string;
+    identity?: any;
+  }
   
   export type { 
     FormProps,
     IwhistleType,
-    IdentityFormProps
+    IdentityFormProps,
+    WhistleFormProps,
+    IWhistleForm,
+    
 }
