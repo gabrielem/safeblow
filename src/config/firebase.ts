@@ -1,4 +1,4 @@
-import { FirebaseConfig } from '@/modules/_types'
+import { FirebaseConfig } from '@/types';
 import { initializeApp, getApps } from 'firebase/app'
 import { getAuth, updateProfile, User } from 'firebase/auth'
 
@@ -23,7 +23,6 @@ export const storage = getStorage(firebaseApp)
 
 
 export const dbGet = async (path: string) => {
-  // const data = ref(db, path); 
   const dataSnapshot = await get(ref(db, path));
   return dataSnapshot?.val();
 }
@@ -32,7 +31,6 @@ export const dbSet = async (path: string, value: any) => {
   await set(ref(db, path), value);
 }
 
-// export const updateUserDisplayName = async (user: User, displayName: string) => {
 export const updateUserDisplayName = async (displayName: string) => {
   const currentUser = auth.currentUser as User
   if (!currentUser) {
