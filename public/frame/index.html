@@ -1,23 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Basic Frame</title>
-    <meta
-      property="og:image"
-      content="https://frames-gilt.vercel.app/site-preview.jpg"
-    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farcaster Video Frame</title>
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:type" content="video" />
+    <meta property="og:video" content="https://www.example.com/video.mp4" />
+    <meta property="og:description" content="Watch this amazing video on Farcaster!" />
+    <meta property="og:image" content="https://www.example.com/thumbnail.jpg" />
+
+    <!-- Custom Metadata for Farcaster Frame -->
     <meta property="fc:frame" content="vNext" />
-    <meta
-      property="fc:frame:image"
-      content="https://frames-gilt.vercel.app/site-preview.jpg"
-    />
-    <meta property="fc:frame:button:1" content="Start" />
-    <meta
-      property="fc:frame:post_url"
-      content="https://frames-gilt.vercel.app/api/basic?id=1"
-    />
+    <meta property="fc:frame:title" content="Farcaster Video Frame" />
+    <meta property="fc:frame:description" content="Watch and share this video with your friends!" />
+    <meta property="fc:frame:button:1" content="Share this Frame" />
+    <meta property="fc:frame:post_url" content="https://www.example.com/share?id=1" />
+    
+    <!-- Style for basic layout -->
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .frame-container {
+        width: 80%;
+        max-width: 800px;
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      video {
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+      }
+      .description {
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
   </head>
+
   <body>
-    <h1>Basic Frame</h1>
+    <div class="frame-container">
+      <h1>Farcaster Video Frame</h1>
+
+      <!-- Embedded Video -->
+      <video controls>
+        <source src="https://www.example.com/video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Description -->
+      <p class="description">Watch this amazing video on Farcaster and share it with your friends!</p>
+
+      <!-- Share Button -->
+      <button id="shareButton">Share this Frame</button>
+    </div>
+
+    <!-- Script to handle sharing -->
+    <script>
+      document.getElementById('shareButton').addEventListener('click', function () {
+        const shareData = {
+          title: 'Farcaster Video Frame',
+          text: 'Watch and share this amazing video on Farcaster!',
+          url: 'https://www.example.com/frame?id=1'
+        };
+
+        if (navigator.share) {
+          navigator
+            .share(shareData)
+            .then(() => console.log('Frame shared successfully!'))
+            .catch((error) => console.error('Error sharing the frame:', error));
+        } else {
+          alert('Sharing is not supported on this browser. Please copy the link to share.');
+        }
+      });
+    </script>
   </body>
 </html>
