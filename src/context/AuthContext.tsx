@@ -83,7 +83,9 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
         setUser(authResult.user)
         return authResult
       } else {
-        throw new Error('Unautorazed')
+        setIsAdmin(false)
+        setUser(null)
+        return
       }
     } catch (error) {
       setIsAdmin(false)
@@ -108,7 +110,6 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser: any) => {
-      console.log('authUser', authUser)
       if (authUser) {
         const admin = authUser?.reloadUserInfo?.customAttributes ? JSON.parse(authUser.reloadUserInfo?.customAttributes).admin : false
         if(admin) {

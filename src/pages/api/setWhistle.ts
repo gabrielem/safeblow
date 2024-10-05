@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import admin from '@/config/firebase-admin';
-import CryptoJS from 'crypto-js'
-import { sortObject } from '@/utils';
+import { hashSHA256, sortObject } from '@/utils';
 
 async function setWhistleHandler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -9,7 +8,7 @@ async function setWhistleHandler(req: NextApiRequest, res: NextApiResponse) {
         const { whistle } = req.body
         if (!whistle) throw 'Whistle data is required'
 
-        const whistleHash = CryptoJS.SHA256(sortObject(whistle)).toString();
+        const whistleHash = hashSHA256(whistle);
         await admin.database().ref(`whistle/${whistleHash}`).set(whistle);
         return res.send(whistleHash)
 

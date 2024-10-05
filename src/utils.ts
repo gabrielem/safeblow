@@ -1,5 +1,6 @@
 import TransgateConnect from '@zkpass/transgate-js-sdk'
 import { requestTlsVerifyResult } from "./types"
+import { createHash } from 'crypto';
 
 const requestTlsVerify = async (): Promise<requestTlsVerifyResult> => {
     try {
@@ -84,11 +85,13 @@ const sortObject = (obj: any): any => {
     }
     return null
 }
+  const hashSHA256 = (input: any) => createHash('sha256').update(JSON.stringify(input)).digest('hex')
 
   export {
     requestTlsVerify,
     validateIdentityFormCheck,
     sortObject,
     getErrorMessage,
-    validateEmail
+    validateEmail,
+    hashSHA256
   }

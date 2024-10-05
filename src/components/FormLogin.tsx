@@ -36,11 +36,7 @@ const FormLogin: React.FC = () => {
     setIsLoading(true)
     if(!isRecovery) {
       try {
-        const data = await signin({ email: formAuth.email, password: formAuth.password })
-        if(!isAdmin && !data) {
-          toast.error('Unautorazed')
-          setIsLoading(false)
-        }
+        await signin({ email: formAuth.email, password: formAuth.password })
       } catch (error) {
         toast.error(getErrorMessage(error))
         setIsLoading(false)
@@ -93,10 +89,11 @@ const FormLogin: React.FC = () => {
             />
           </div>}
           <button
+            disabled={isLoading}
             onClick={handleRecoveryLogin}
             className="bg-[#0284c7] text-white w-full text-lg py-3 rounded-lg mt-4 flex justify-center items-center"
           >
-            {!isRecovery ? 'Login' : 'Recovery'}
+            {isLoading ? 'Loading...' : !isRecovery ? 'Login' : 'Recovery'}
           </button>
           <div className='text-center mt-3'>
             <Link href='' onClick={handleSetRecovery} className='underline'>
