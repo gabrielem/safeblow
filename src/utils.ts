@@ -27,7 +27,7 @@ const requestTlsVerify = async (): Promise<requestTlsVerifyResult> => {
     }
   }
 
-  const validateIdentityFormCheck = (formData: any) => {
+const validateIdentityFormCheck = (formData: any) => {
     // const { organization, name, surname, email, tlsCertificate } = formData;
     const { organization, name, surname, email} = formData;
     if (!organization) throw 'Organization is required'
@@ -36,9 +36,46 @@ const requestTlsVerify = async (): Promise<requestTlsVerifyResult> => {
     if (!email) throw 'Email is required'
 };
 
+const sortObject = (obj: any): any => {
+    if (Array.isArray(obj)) {
+      return obj.map(sortObject);
+    } else if (obj !== null && typeof obj === 'object') {
+      return Object.keys(obj)
+        .sort()
+        .reduce((sortedObj: any, key: string) => {
+          sortedObj[key] = sortObject(obj[key]);
+          return sortedObj;
+        }, {});
+    }
+    return obj;
+  };  
 
+  const getErrorMessage = (error: any) => {
+    // console.log('❌❌❌ getErrorMessage', error)
+    if (error && (typeof error === 'string' || error instanceof String)) {
+        return error
+    } else if (error?.response?.data?.error?.message) {
+        return error.response.data.error.message
+    } else if (error?.response?.data?.error?.detail) {
+        return error.response.data.error.detail
+    } else if (error?.response?.data?.error) {
+        return error.response.data.error
+    } else if (error?.response?.data?.message) {
+        return error.response.data.message
+    } else if (error?.request?.statusText) {
+        return error.request.statusText
+    } else if (error?.request?.status) {
+        return error.request.status
+    } else if (error?.message) {
+        return error.message
+    } else {
+        return "Server error"
+    }
+  }
 
   export {
     requestTlsVerify,
-    validateIdentityFormCheck
+    validateIdentityFormCheck,
+    sortObject,
+    getErrorMessage
   }

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@zkpass/transgate-js-sdk": "^0.3.0",
+    "axios": "^1.7.7",
     "crypto-js": "^4.2.0",
     "firebase": "^10.14.0",
     "firebase-admin": "^12.6.0",

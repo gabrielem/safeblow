@@ -1,22 +1,29 @@
 // IdentityForm
+import CryptoJS from 'crypto-js'
 import { IdentityFormProps } from '@/types';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import WhistleForm from './WhistleForm';
-import { requestTlsVerify, validateIdentityFormCheck } from '@/utils';
+import { requestTlsVerify, sortObject, validateIdentityFormCheck } from '@/utils';
 import { toast } from 'react-toastify';
 import { BsSend } from 'react-icons/bs';
 import VerifiedBadge from './VerifiedBadge';
+import api from '@/helpers/api';
+import WhistleResponse from './WhistleResponse';
 
 const IdentityForm: React.FC<IdentityFormProps> = ({whistleType}) => {
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
     const [loadingCheckIdentity, setLoadingCheckIdentity] = useState(false)
     const [tlsCertificate, setTlsCertificate] = useState<any>()
+    const [whistleHash, setWhistleHash] = useState<string>("")
+    const [whistleHashVerify, setWhistleHashVerify] = useState<string>("")
     
     const [formData, setFormData] = useState({
         organization: "",
         name: "",
         surname: "",
         email: "",
-        tlsCertificate
+        whistleMessage: "",
+        tlsCertificate,
     })
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target
@@ -55,10 +62,55 @@ const IdentityForm: React.FC<IdentityFormProps> = ({whistleType}) => {
 
     const handleSubmit = async () => {
         console.log("Submit...", formData);
+
+        if (whistleType !== 'anonymous') {
+            validateIdentityFormCheck(formData)
+            if (!tlsCertificate) {
+                toast.error("Please check identity before submit")
+                return
+            }
+        } else {
+            if (!formData?.organization) {
+                toast.error("Organization is required")
+                return
+            }
+        }
+
+        if (!formData?.whistleMessage) {
+            toast.error("Whistle message is required")
+            return
+        }
+
+        setLoadingSubmit(true)
+        try {
+            const wHash = CryptoJS.SHA256(sortObject(formData)).toString();
+            setWhistleHash(wHash)
+            const result = await api.setWhistle({whistle: formData}) 
+            console.log("Submit Result...", result);
+            setWhistleHashVerify(result)
+            toast.success("Whistle submitted successfully")
+        } catch (error: any) {
+             console.log("❌❌❌ Error Submit...", error);
+             toast.error(error?.message
+                ? error.message
+                : (typeof error === 'string'
+                    ? error
+                    : 'Error While Submit!')
+                )
+             
+        } finally {
+            setLoadingSubmit(false)
+        }
+    }
+
+
+    if (whistleHash) {
+        return <WhistleResponse whistleHash={whistleHash} whistleHashVerify={whistleHashVerify} />
     }
 
   return (
     <div className="container mx-auto p-4 text-white">
+        
       {!tlsCertificate && <div className="mb-4">
         <label htmlFor="organization" className="block text-sm font-medium text-gray-100">Organization</label>
         <input 
@@ -150,13 +202,15 @@ const IdentityForm: React.FC<IdentityFormProps> = ({whistleType}) => {
         }
         {whistleType === 'anonymous' || tlsCertificate
             ? <div>
-                <button
-                    className="bg-[#0284c7] text-white w-full text-lg py-3 rounded-lg mt-4 flex justify-center items-center"
-                    onClick={handleSubmit}
-                >
-                    <BsSend className="inline mr-2" /> Submit
-                </button>
-
+                {loadingSubmit
+                    ? <span className="">Loading...</span>
+                    : <button
+                        className="bg-[#0284c7] text-white w-full text-lg py-3 rounded-lg mt-4 flex justify-center items-center"
+                        onClick={handleSubmit}
+                    >
+                        <BsSend className="inline mr-2" /> Submit
+                    </button>
+                }
             </div>
             : null
         }

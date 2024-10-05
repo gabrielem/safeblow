@@ -36,7 +36,13 @@ interface FormProps {
     appId: string | undefined;
     databaseURL: string | undefined;
   }
-  
+
+interface AxiosRequestParams {
+  method: 'post' | 'get' | 'put' | 'delete';
+  url: string;
+  payload?: any;
+  token?: string | null;
+}
   export type { 
     FormProps,
     IwhistleType,
@@ -44,4 +50,6 @@ interface FormProps {
     WhistleFormProps,
     requestTlsVerifyResult,
     FirebaseConfig, 
+    AxiosRequestParams,
+    
 }
