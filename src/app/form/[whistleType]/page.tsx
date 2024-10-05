@@ -4,6 +4,7 @@ import React from "react";
 import BgContainer from "@/components/BgContainer";
 import Header from "@/components/Header";
 import ItemNotFound from "@/components/ItemNotFound";
+import { useRouter } from "next/navigation"; 
 
 interface FormProps {
   params: {
@@ -12,20 +13,25 @@ interface FormProps {
 }
 
 const Form: React.FC<FormProps> = ({ params }) => {
-  const validWhistleTypes: Array<'anonymous' | 'not_anonymous'> = ['anonymous', 'not_anonymous'];
+  const router = useRouter();
 
-  // Verifica se il whistleType è valido
+  const validWhistleTypes: Array<'anonymous' | 'not_anonymous'> = ['anonymous', 'not_anonymous'];
   const isValidWhistleType = validWhistleTypes.includes(params?.whistleType);
 
   return (
     <BgContainer backgroundImage="/bg.jpg">
       <Header />
+      <div>
+        <button 
+            className="bg-[#0284c7] text-white px-6 py-2 rounded-lg ml-4"
+            onClick={() => { router.push(`/`); }}>Back</button>
+      </div>
       <div className="container mx-auto py-4 px-6 flex justify-center items-center">
+      
+
         {isValidWhistleType ? (
-          // Se il whistleType è valido, mostra il suo valore
           <>whistleType: {params?.whistleType}</>
         ) : (
-          // Se il whistleType non è valido, mostra il componente ItemNotFound
           <ItemNotFound />
         )}
       </div>
