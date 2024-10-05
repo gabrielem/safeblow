@@ -3,7 +3,7 @@ import CryptoJS from 'crypto-js'
 import { IdentityFormProps } from '@/types';
 import React, { ChangeEvent, useState } from 'react';
 import WhistleForm from './WhistleForm';
-import { requestTlsVerify, sortObject, validateIdentityFormCheck } from '@/utils';
+import { hashSHA256, requestTlsVerify, sortObject, validateIdentityFormCheck } from '@/utils';
 import { toast } from 'react-toastify';
 import { BsSend } from 'react-icons/bs';
 import VerifiedBadge from './VerifiedBadge';
@@ -83,10 +83,13 @@ const IdentityForm: React.FC<IdentityFormProps> = ({whistleType}) => {
 
         setLoadingSubmit(true)
         try {
-            const wHash = CryptoJS.SHA256(sortObject(formData)).toString();
+            const wHash = hashSHA256(sortObject(formData))
             setWhistleHash(wHash)
             const result = await api.setWhistle({whistle: formData}) 
             console.log("Submit Result...", result);
+            console.log('client:', wHash);
+            console.log('server:', result);
+            
             setWhistleHashVerify(result)
             toast.success("Whistle submitted successfully")
         } catch (error: any) {
