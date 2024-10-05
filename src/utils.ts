@@ -74,7 +74,7 @@ const sortObject = (obj: any): any => {
     }
   }
 
-  const hashSHA256 = (input: any) => createHash('sha256').update(input).digest('hex')
+  const hashSHA256 = (input: any) => createHash('sha256').update(JSON.stringify(input)).digest('hex')
 
   export {
     requestTlsVerify,
