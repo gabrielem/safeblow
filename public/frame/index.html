@@ -1,101 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Farcaster Video Frame</title>
+<html>
 
-    <!-- Open Graph Metadata -->
-    <meta property="og:type" content="video" />
-    <meta property="og:video" content="https://www.youtube.com/watch?v=XqZsoesa55w" />
-    <meta property="og:description" content="Watch this amazing video on Farcaster!" />
-    <meta property="og:image" content="https://www.example.com/thumbnail.jpg" />
+<head>
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <meta property="fc:frame" content="vNext" />
+  <meta property="fc:frame:video"
+    content="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8" />
+  <meta property="fc:frame:video:type" content="application/x-mpegURL" />
+  <meta property="fc:frame:image" content="https://www.w3schools.com/w3images/mountains.jpg" />
+  <meta property="og:image" content="https://www.w3schools.com/w3images/mountains.jpg" />
+</head>
 
-    <!-- Custom Metadata for Farcaster Frame -->
-    <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:title" content="Farcaster Video Frame" />
-    <meta property="fc:frame:description" content="Watch and share this video with your friends!" />
-    <meta property="fc:frame:button:1" content="Share this Frame" />
-    <meta property="fc:frame:post_url" content="https://www.example.com/share?id=1" />
-    
-    <!-- Style for basic layout -->
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        margin: 0;
-      }
-      .frame-container {
-        width: 80%;
-        max-width: 800px;
-        text-align: center;
-        border: 1px solid #ccc;
-        padding: 20px;
-        border-radius: 10px;
-      }
-      video {
-        width: 100%;
-        height: auto;
-        margin-bottom: 20px;
-      }
-      .description {
-        font-size: 18px;
-        margin-bottom: 20px;
-      }
-      button {
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-      }
-      button:hover {
-        background-color: #0056b3;
-      }
-    </style>
-  </head>
+<body>
+  <video id="my-video" class="video-js" controls preload="auto" width="640" height="264" poster="MY_VIDEO_POSTER.jpg"
+    data-setup="{}">
+    <source src="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8" type="application/x-mpegURL" />
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+      <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+  </video>
 
-  <body>
-    <div class="frame-container">
-      <h1>Farcaster Video Frame</h1>
-
-      <!-- Embedded Video -->
-      <video controls>
-        <source src="https://www.example.com/video.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-
-      <!-- Description -->
-      <p class="description">Watch this amazing video on Farcaster and share it with your friends!</p>
-
-      <!-- Share Button -->
-      <button id="shareButton">Share this Frame</button>
-    </div>
-
-    <!-- Script to handle sharing -->
-    <script>
-      document.getElementById('shareButton').addEventListener('click', function () {
-        const shareData = {
-          title: 'Farcaster Video Frame',
-          text: 'Watch and share this amazing video on Farcaster!',
-          url: 'https://www.example.com/frame?id=1'
-        };
-
-        if (navigator.share) {
-          navigator
-            .share(shareData)
-            .then(() => console.log('Frame shared successfully!'))
-            .catch((error) => console.error('Error sharing the frame:', error));
-        } else {
-          alert('Sharing is not supported on this browser. Please copy the link to share.');
-        }
-      });
-    </script>
-  </body>
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+</body>
 </html>
