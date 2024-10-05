@@ -11,11 +11,11 @@ const WhistleForm: React.FC<WhistleFormProps> = ({ identityPayload }) => {
         if (identityPayload) setWhistle({ ...whistle, identity: identityPayload });
     }, [identityPayload]);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type, checked } = e.target
+    const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        const { name, value } = e.target
         setWhistle({
           ...whistle,
-          [name]: type === "checkbox" ? checked : value,
+          [name]: value,
         })
     }
 
@@ -30,12 +30,12 @@ const WhistleForm: React.FC<WhistleFormProps> = ({ identityPayload }) => {
             <div>
                 <label htmlFor="whistleMessage" className="block text-sm font-medium text-gray-100">Whistle Message</label>
                 <textarea
-                    handleChange={handleChange}
+                    onChange={handleChange}
                     name="whistleMessage"
                     value={whistle?.whistleMessage}
 
                     id="whistleMessage"
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="text-black mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter your whistle message"
                     rows={4} // Imposta il numero di righe visibili
                 />
