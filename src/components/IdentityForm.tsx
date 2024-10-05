@@ -83,16 +83,11 @@ const IdentityForm: React.FC<IdentityFormProps> = ({whistleType}) => {
 
         setLoadingSubmit(true)
         try {
-            console.log("🔑🔑🔑 ---> Public Key...", process.env.NEXT_PUBLIC_PUB_KEY);
             const encryptedData = encryptData(process.env.NEXT_PUBLIC_PUB_KEY, formData)
-            console.log("🔑🔑🔑 ---> Encrypted Data...", encryptedData);
             
             const wHash = hashSHA256(encryptedData)
             setWhistleHash(wHash)
-            const result = await api.setWhistle({whistle: formData}) 
-            console.log("Submit Result...", result);
-            console.log('client:', wHash);
-            console.log('server:', result);
+            const result = await api.setWhistle({whistle: encryptedData}) 
             
             setWhistleHashVerify(result)
             toast.success("Whistle submitted successfully")
