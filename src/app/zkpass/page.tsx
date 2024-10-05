@@ -30,7 +30,7 @@ export default function Home (): JSX.Element {
 
         const schemaIdLiv2 = '29ec995bc8834183b6c0d785784705a7'
         const liv2 = await connector.launch(schemaIdLiv2) as resultPropType
-        setLiv1(liv2)
+        setLiv2(liv2)
 
       } else {
         setError(
