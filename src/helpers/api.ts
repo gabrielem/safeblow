@@ -40,6 +40,10 @@ const api = {
       async getCustomToken (payload: any, token: string | null | undefined) {
         return buildTheRequest({method: 'post', url: '/admin/getCustomToken', payload, token})
       },
+      async getWhistles (token: string | null | undefined) {
+        return buildTheRequest({method: 'get', url: '/admin/getWhistles', token})
+      },
+      
     },
     async setWhistle (payload: any) {
         return buildTheRequest({method: 'post', url: '/setWhistle', payload})

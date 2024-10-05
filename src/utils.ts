@@ -73,9 +73,22 @@ const sortObject = (obj: any): any => {
     }
   }
 
+  const validateEmail = (email: string): string | null => {
+    if (!email.trim()) {
+      return 'Email not valid!'
+    }
+    const emailPattern: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  
+    if (!emailPattern.test(email)) {
+      return 'Email is empty'
+    }
+    return null
+}
+
   export {
     requestTlsVerify,
     validateIdentityFormCheck,
     sortObject,
-    getErrorMessage
+    getErrorMessage,
+    validateEmail
   }
