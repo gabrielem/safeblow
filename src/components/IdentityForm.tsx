@@ -25,6 +25,7 @@ const IdentityForm: React.FC<IdentityFormProps> = ({whistleType}) => {
         whistleMessage: "",
         tlsCertificate,
     })
+    
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target
         setFormData({
@@ -32,8 +33,6 @@ const IdentityForm: React.FC<IdentityFormProps> = ({whistleType}) => {
           [name]: type === "checkbox" ? checked : value,
         })
     }
-
-    // useEffect(() => { console.log("FormData...", formData); }, [formData])
 
     const handleCheckIdentity = async (e: any) => {
         e.preventDefault()
@@ -60,6 +59,18 @@ const IdentityForm: React.FC<IdentityFormProps> = ({whistleType}) => {
         }
     }
 
+    const hashPersonalData = (data: any): any => {
+        const fieldsToHash = ['name', 'surname', 'email'];
+        const hashedData = { ...data };
+        fieldsToHash.forEach((field) => {
+            if (hashedData[field]) {
+                hashedData[field] = hashSHA256(hashedData[field]);
+            }
+        });
+    
+        return hashedData;
+    };
+
     const handleSubmit = async () => {
         console.log("Submit...", formData);
 
@@ -83,8 +94,7 @@ const IdentityForm: React.FC<IdentityFormProps> = ({whistleType}) => {
 
         setLoadingSubmit(true)
         try {
-            const encryptedData = encryptData(process.env.NEXT_PUBLIC_PUB_KEY, formData)
-            
+            const encryptedData = encryptData(process.env.NEXT_PUBLIC_PUB_KEY, hashPersonalData(formData))
             const wHash = hashSHA256(encryptedData)
             setWhistleHash(wHash)
             const result = await api.setWhistle({whistle: encryptedData}) 

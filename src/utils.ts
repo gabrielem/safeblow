@@ -74,6 +74,18 @@ const sortObject = (obj: any): any => {
     }
   }
 
+  const validateEmail = (email: string): string | null => {
+    if (!email.trim()) {
+      return 'Email not valid!'
+    }
+    const emailPattern: any = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  
+    if (!emailPattern.test(email)) {
+      return 'Email is empty'
+    }
+    return null
+}
+
   const hashSHA256 = (input: any) => createHash('sha256').update(JSON.stringify(input)).digest('hex')
 
   export {
@@ -81,5 +93,6 @@ const sortObject = (obj: any): any => {
     validateIdentityFormCheck,
     sortObject,
     getErrorMessage,
+    validateEmail,
     hashSHA256
   }

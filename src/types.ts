@@ -1,3 +1,7 @@
+import { Auth, User, UserCredential } from 'firebase/auth'
+import { NextApiRequest } from 'next';
+
+
 type IwhistleType = 'anonymous' | 'not_anonymous';
 
 interface FormProps {
@@ -43,6 +47,35 @@ interface AxiosRequestParams {
   payload?: any;
   token?: string | null;
 }
+
+interface IFormLogin {
+  email: string
+  password: string
+}
+
+interface AuthContextProps {
+  isAdmin: boolean
+  user: User | null
+  auth: Auth | null
+  getToken: () => Promise<string>
+  loading: boolean
+  logout: () => Promise<void>
+  token: string | null;
+  signin: (payload: IFormLogin) => Promise<UserCredential>
+  forgotPass: (payload: { email: string }) => Promise<void>
+}
+
+interface ExtendedNextApiRequest extends NextApiRequest {
+  originalUrl?: string
+  isAdmin?: boolean
+  ip?: string
+  authId?: string
+  uid?: string
+  userFirebase?: any
+  user?: any
+}
+
+
   export type { 
     FormProps,
     IwhistleType,
@@ -51,5 +84,7 @@ interface AxiosRequestParams {
     requestTlsVerifyResult,
     FirebaseConfig, 
     AxiosRequestParams,
-    
+    IFormLogin,
+    AuthContextProps,
+    ExtendedNextApiRequest
 }
