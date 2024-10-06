@@ -72,7 +72,7 @@ const getAdmins = async () => {
 const getWhistles = async () => {
   try {
     const results = (await admin.database().ref(`whistle`).once('value')).val()
-    let decrytedResults: any = {}
+    const decrytedResults: any = {}
     for (const key in results) {
       console.log('key', results[key]);
       decrytedResults[key] = decryptData(process.env.PRIVATE_KEY, results[key])
