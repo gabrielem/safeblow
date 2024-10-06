@@ -32,40 +32,37 @@ const WhistleList = () => {
 
 
   return (
-    <div className="bg-white p-3 rounded-md m-5">
+    <div className="bg-gray-900 p-3 rounded-md m-5">
       <div>
-        <span className="font-bold text-3xl text-black">Whistle List</span>
+        <span className="font-bold text-3xl text-white">
+          Whistle List
+        </span>
         {isLoading 
           ? <div className="my-10"><Loading /></div>
-          :<table className="w-full bg-white text-sm text-left rtl:text-right text-black-500 shadow-md border mt-5">
-            <tbody>
+          : <div className="w-full bg-gray-700 text-sm text-left rtl:text-right text-black-500 shadow-md mt-5 p-3 rounded-sm">
             {Object.keys(list).map((key, index) => {
-                const item = list[key]
+                const item = JSON.parse(list[key])
+                console.log('item', item);
+                
                 return (
-                  <tr key={index} className="border-b">
-                      <td colSpan={2} className="flex items-center px-6 py-4 text-black">
-                          <FaHashtag size='1.5rem' className="text-black-500" />
-                          <div className="ps-3">
-                              <div className="text-base font-semibold">{key}</div>
-                          </div>  
-                      </td>
-                      <td colSpan={2} className="flex items-center px-6 py-4 text-black">
-                          <GoOrganization size='1.5rem' />
-                          <div className="ps-3">
-                              <div className="text-base font-semibold">{item.organization}</div>
-                          </div>  
-                      </td>
-                      <td colSpan={2} className="flex items-center px-6 py-4 text-black">
-                          <FaMessage size='1.5rem' />
-                          <div className="ps-3">
-                              <div className="text-base font-semibold">{item.whistleMessage}</div>
-                          </div>  
-                      </td>
-                  </tr> 
+                  <div key={index} className="p-3 rounded-md bg-gray-900 mb-2">
+                    <div>
+                      <FaHashtag className="inline" /> <span className="text-base font-semibold">{key}</span>
+                      {item.tlsCertificate 
+                        ? <span className="text-xs text-green-500"> (TLS Verified)</span>
+                        : <span className="text-xs text-gray-500"> (Anonymous)</span>
+                      }
+                    </div>
+                    <div>
+                      <GoOrganization className='inline' /> {item.organization}
+                    </div>
+                    <div>
+                      <FaMessage className='inline' /> {item.whistleMessage}
+                    </div>
+                  </div> 
                 )
             })}
-            </tbody>
-          </table>
+          </div>
         }
       </div>
     </div>

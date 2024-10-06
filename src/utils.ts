@@ -4,13 +4,13 @@ import { createHash } from 'crypto';
 
 const requestTlsVerify = async (): Promise<requestTlsVerifyResult> => {
     try {
-      const appid = '0d2a8f10-cf31-4650-9d00-0e6fb328fd27'
+      const appid = process.env.NEXT_PUBLIC_ZKPASS_APP_ID || ""
   
       const connector = new TransgateConnect(appid)
       const isAvailable = await connector.isTransgateAvailable()
   
       if (isAvailable) {
-        const dataSchema = '4b226bbae74349ed90a7a6d55c52f3ea'
+        const dataSchema = process.env.NEXT_PUBLIC_ZKPASS_SCHEMA || ""
         const response = await connector.launch(dataSchema) as requestTlsVerifyResult
         return response
   

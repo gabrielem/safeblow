@@ -1,4 +1,5 @@
 import admin from '@/config/firebase-admin'
+import { decryptData } from '@/encryptDecrypt'
 import { getErrorMessage } from '@/utils'
 
 
@@ -70,7 +71,15 @@ const getAdmins = async () => {
 
 const getWhistles = async () => {
   try {
-    return (await admin.database().ref(`whistle`).once('value')).val()
+    const results = (await admin.database().ref(`whistle`).once('value')).val()
+    let decrytedResults: any = {}
+    for (const key in results) {
+      console.log('key', results[key]);
+      decrytedResults[key] = decryptData(process.env.PRIVATE_KEY, results[key])
+      // result[key].whistleMessage = result[key].whistleMessage.slice(0, 20)
+    }
+    
+    return decrytedResults
   } catch (error) {
     console.log('getWhistles - error', error)
     throw error
